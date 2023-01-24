@@ -31,5 +31,10 @@ namespace Commender.Data
         {
             return new Command{Id=0, HowTo="Boil an egg", Line="Boil water", Platform="Kettle & Pan"};
         }
+
+        void ICommanderRepo.UpdateCommand(Command cmd)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
