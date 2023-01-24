@@ -5,6 +5,16 @@ namespace Commender.Data
 {
     public class MockCommanderRepo : ICommanderRepo
     {
+        public void CreateCommand(Command cmd)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool SaveChanges()
+        {
+            throw new NotImplementedException();
+        }
+
         IEnumerable<Command> ICommanderRepo.GetAllCommands()
         {
             var commands = new List<Command>
