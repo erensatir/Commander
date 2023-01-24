@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using Commander.Data;
 using AutoMapper;
 using Commander.Dtos;
+using Microsoft.AspNetCore.JsonPatch;
 
 namespace Commander.Controllers
 {
@@ -70,8 +71,36 @@ namespace Commander.Controllers
 
             _repository.SaveChanges();
 
+            return NoContent(); //3.05.05
+        }
+
+        //PATCH api/commands/{id}
+        [HttpPatch("{id}")]
+        public ActionResult PartialCommandUpdate(int id, JsonPatchDocument<CommandUpdateDto> patchDoc)
+        {
+            var commandModelFromRepo = _repository.GetCommandById(id);
+            if(commandModelFromRepo == null)
+            {
+                return NotFound();
+            }
+
+            var commandToPatch = _mapper.Map<CommandUpdateDto>(commandModelFromRepo);
+            patchDoc.ApplyTo(commandToPatch, ModelState);
+
+            if(!TryValidateModel(commandToPatch))
+            {
+                return ValidationProblem(ModelState);
+            }
+
+            _mapper.Map(commandToPatch, commandModelFromRepo);
+
+            _repository.UpdateCommand(commandModelFromRepo);
+
+            _repository.SaveChanges();
+
             return NoContent();
         }
+
 
     }
 }
