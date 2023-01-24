@@ -15,6 +15,11 @@ namespace Commender.Data
             throw new NotImplementedException();
         }
 
+        void ICommanderRepo.DeleteCommand(Command cmd)
+        {
+            throw new NotImplementedException();
+        }
+
         IEnumerable<Command> ICommanderRepo.GetAllCommands()
         {
             var commands = new List<Command>
